@@ -1,0 +1,57 @@
+
+mongosh "mongodb+srv://cluster0.uwlzr07.mongodb.net/lab9" --apiVersion 1 --username saikrishna7783
+ show dbs
+//this will create the database if not existing
+ use db_name
+
+// CRUD
+ //create
+ db.createCollection("Student")
+ show collections
+ //Read
+ db.Student.find() 
+ //Insert
+ db.Student.insertOne({Roll_no : 1, Age : 21, Cont : 9876, email : "antara.de9@gmail.com"})
+ db.Student.insertOne({Roll_no : 2, Age : 22, Cont : 9976, email : "anushka.de9@gmail.com"})
+ db.Student.insertOne({Roll_no : 3, Age : 21, Cont : 5576, email : "anubhav.de9@gmail.com"})
+ db.Student.insertOne({Roll_no : 4, Age : 20, Cont : 4476, email : "pani.de9@gmail.com"})
+ db.Student.insertOne({Roll_no : 10, Age : 23, Cont : 2276, email : "rekha.de9@gmail.com"})
+ //or
+ db.Student.insertMany(
+   [ {Roll_no : 1, Age : 21, Cont : 9876, email : "antara.de9@gmail.com"} ,
+     {Roll_no : 2, Age : 22, Cont : 9976, email : "anushka.de9@gmail.com"},
+     {Roll_no : 3, Age : 21, Cont : 5576, email : "anubhav.de9@gmail.com"},
+     {Roll_no : 4, Age : 20, Cont : 4476, email : "pani.de9@gmail.com"},
+     {Roll_no : 10, Age : 23, Cont : 2276, email : "rekha.de9@gmail.com"}
+   ],
+   {
+      writeConcern: <document>,
+      ordered: <boolean>
+   }
+ )
+ //Update
+ db.Student.updateOne({Roll_no : 10},{$set:{'email' : 'hey@mail'}})
+ db.Student.insertOne({Roll_no : 11, Age : 22, Name : 'ABC', Cont : 3376, email : "hello.de9@gmail.com"})
+ db.Student.updateOne({Roll_no : 11},{$set:{Name : 'Hello'}})
+
+//extras
+db.Student.insert({_id:1,StudName:"MichelleJacintha",Grade:"VII",Hobbies:"InternetSurfing"});
+db.Student.update({_id:3,StudName:"AryanDavid",Grade:"VII"},{$set:{Hobbies:"Skating"}},{upsert:true});
+db.Student.find({StudName:"Aryan David"});
+db.Student.find({},{StudName:1,Grade:1,_id:0});
+db.Student.find({Grade:{$eq:'VII'}}).pretty();
+db.Student.find({Hobbies :{ $in: ['Chess','Skating']}}).pretty ();
+db.Student.find({StudName:/^M/}).pretty();
+db.Student.find({StudName:/e/}).pretty();
+db.Student.count();
+db.Student.find().sort({StudName:-1}).pretty();
+//
+
+ //delete
+ db.Student.drop()
+
+//export
+ mongoexport mongodb+srv://saikrishna7783:icreated1here@cluster0.uwlzr07.mongodb.net/lab9 --collection=Student --out a.json
+
+//import
+ mongoimport mongodb+srv://saikrishna7783:icreated1here@cluster0.uwlzr07.mongodb.net/lab9 --collection=mystudent --type json --file a.json
